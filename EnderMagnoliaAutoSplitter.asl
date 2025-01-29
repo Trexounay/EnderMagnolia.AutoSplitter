@@ -1,5 +1,5 @@
 /*
-** ENDER LILIES: Quietus of the Knights by Trex
+** ENDER MAGNOLIA: Bloom in the Mist by Trex
 ** https://discord.gg/wWQUzB36dx
 */
 
@@ -72,7 +72,7 @@ init
 		{
 			exeMD5HashBytes = md5.ComputeHash(s);
 		}
-		}
+	}
 	var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
 	switch(MD5Hash)
 	{
