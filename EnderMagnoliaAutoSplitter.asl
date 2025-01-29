@@ -58,7 +58,7 @@ startup
 	settings.Add("load_remover", true, "Load Remover");
 	settings.SetToolTip("load_remover", "Pause timer during game loadings, only affects Game Time");
 
-	settings.Add("config_split", true, "Splits Configuration");
+	settings.Add("config_split", true, "Splits Configuration (WIP)");
 	settings.Add("split_ending", true, "Game Endings", "config_split");
 	settings.SetToolTip("split_ending", "Split when reaching Ending A or B");
 }
