@@ -155,7 +155,7 @@ split
 		return false;
 	
 	if (settings["split_ending"] &&  old.SaveBackup != current.SaveBackup &&
-		vars.GetName(current.LevelName) == "Summit_001_Zone_030")
+		current.LevelName > 0 && vars.GetName(current.LevelName) == "Summit_001_Zone_030")
 		return true;
 	return false;
 }
