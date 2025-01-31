@@ -116,7 +116,7 @@ start
 	{
 		vars.lastLevel = old.LevelBuildDataId;
 	}
-	return vars.lastLevel == vars.TitleLevelID && current.LevelBuildDataId == vars.InGameLevelID;
+	return vars.lastLevel == vars.TitleLevelID && current.LevelBuildDataId == vars.InGameLevelID && old.LevelBuildDataId != current.LevelBuildDataId;
 }
 
 update
@@ -146,7 +146,7 @@ isLoading
 
 reset
 {
-	return current.LevelBuildDataId == vars.TitleLevelID;
+	return current.LevelBuildDataId == vars.TitleLevelID && old.LevelBuildDataId != current.LevelBuildDataId;
 } 
 
 split
