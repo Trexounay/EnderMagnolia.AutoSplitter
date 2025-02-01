@@ -32,6 +32,9 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.3")
 	//int GEngine->GameViewport->World->GameMode->ZoneSystemComponent->ActiveZoneLevelStreaming->Name
 	int PackageNameToLoad: 0x07EF2780, 0xA80, 0x78, 0x158, 0x4B0, 0xF8, 0x54;
 	
+	//int GEngine->GameViewport->World->GameMode->ZoneSystemComponent->switchingZone
+	bool switchingZone: 0x07EF2780, 0xA80, 0x78, 0x158, 0x4B0, 0x101;
+	
 	// GEngine->GameInstance->SybSystems->WorldLoader->IsLoading
 	bool isLoading: 0x07EF2780, 0x10A8, 0x108, 0x128, 0xA8;
 
@@ -140,7 +143,7 @@ update
 
 isLoading
 {
-	return settings["load_remover"] && current.isLoading;
+	return settings["load_remover"] && (current.isLoading || current.switchingZone);
 }
 
 
