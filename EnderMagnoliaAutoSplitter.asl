@@ -45,6 +45,34 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.3")
 	
 	double timeSinceStartup: 0x07EF2780, 0xA80, 0x78, 0x6C0;
 }
+state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.4")
+{
+	// GEngine : 07EF4980
+	// fNamePool : 0x07CC14C0;
+	long world: 0x07EF4980, 0xA80, 0x78;
+
+	//int GEngine->GameViewport->World->PersistentLevel->LevelBuildDataId
+	long LevelBuildDataId: 0x07EF4980, 0xA80, 0x78, 0x30, 0x210;
+	
+	//int GEngine->GameViewport->World->GameMode->ZoneSystemComponent->ActiveZoneLevelStreaming->Name
+	int LevelName: 0x07EF4980, 0xA80, 0x78, 0x158, 0x4B0, 0xF8, 0x38;
+	
+	//int GEngine->GameViewport->World->GameMode->ZoneSystemComponent->ActiveZoneLevelStreaming->Name
+	int PackageNameToLoad: 0x07EF4980, 0xA80, 0x78, 0x158, 0x4B0, 0xF8, 0x54;
+	
+	//int GEngine->GameViewport->World->GameMode->ZoneSystemComponent->switchingZone
+	bool switchingZone: 0x07EF4980, 0xA80, 0x78, 0x158, 0x4B0, 0x101;
+	
+	// GEngine->GameInstance->SybSystems->WorldLoader->IsLoading
+	bool isLoading: 0x07EF4980, 0x10A8, 0x108, 0x128, 0xA8;
+
+	// GEngine->GameInstance->SybSystems->Save->SaveBackupNumber
+	int SaveBackup: 0x07EF4980, 0x10A8, 0x108, 0x50, 0x7C;
+	
+	int RespawnRestPointID: 0x07EF4980, 0x10A8, 0x38, 0, 0x30, 0x9D8;
+	
+	double timeSinceStartup: 0x07EF4980, 0xA80, 0x78, 0x6C0;
+}
 
 startup
 {
@@ -77,19 +105,23 @@ init
 		}
 	}
 	var MD5Hash = exeMD5HashBytes.Select(x => x.ToString("X2")).Aggregate((a, b) => a + b);
+	vars.GetName = new Func<int, string>((int comparison) => 
+	{
+		int block = comparison >> 16;
+		int offset = comparison & 0xFFFF;
+		DeepPointer header = new DeepPointer(vars.fNamePool + 0x10 + (0x8 * block));
+		IntPtr ptr = header.Deref<IntPtr>(game) + (0x2 * offset);
+		Int16 len = (Int16)(game.ReadValue<Int16>(ptr) >> 6);
+		return game.ReadString(ptr + 0x2, len);
+	});
 	switch(MD5Hash)
 	{
+		case "E1B61EB5CE59F921CA9D3A671A197BFA": { 
+			vars.fNamePool = 0x07CC14C0;
+			version = "Steam 1.0.4"; break;
+		}
 		case "4E99ACB034B5729EB3B94C43C184C6F0": { 
 			vars.fNamePool = 0x07CBF2C0;
-			vars.GetName = new Func<int, string>((int comparison) => 
-			{
-				int block = comparison >> 16;
-				int offset = comparison & 0xFFFF;
-				DeepPointer header = new DeepPointer(vars.fNamePool + 0x10 + (0x8 * block));
-				IntPtr ptr = header.Deref<IntPtr>(game) + (0x2 * offset);
-				Int16 len = (Int16)(game.ReadValue<Int16>(ptr) >> 6);
-				return game.ReadString(ptr + 0x2, len);
-			});
 			version = "Steam 1.0.3"; break;
 		}
 		case "F8A689E17C2736A8BF2F0A5DF88C35FD": { version = "Steam 1.0.2"; break; }
