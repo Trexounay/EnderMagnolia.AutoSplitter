@@ -126,7 +126,7 @@ startup
 		{ "BP_e5003_Reaper_C",			"Aggressor"},
 		{ "BP_e5070_Witch_C",			"Luiseach, the Iron Witch"},
 //		{ "BP_e0500_Tentacle_C",		"Rooted Primordial Beast"},
-		{ "BP_e5010_Lancer_C",			"Mad Knight Reibolg"},
+		{ "BP_e5010_Lancer_C",			"Mad Knight Reibolg 1"},
 		{ "BP_e5012_Lancer_C",			"Mad Knight Reibolg 2"},
 //		{ "BP_e0510_Ray_C",				"Soaring Beast of Origin"},
 		{ "BP_e0222_Security_C",    	"Velius - Captain of the Guard"},
