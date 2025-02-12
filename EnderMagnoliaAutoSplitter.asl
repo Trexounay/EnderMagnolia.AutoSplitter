@@ -98,43 +98,41 @@ startup
 	settings.SetToolTip("split_ending", "Split when reaching Ending A or B");
 
 	vars.bosses = new Dictionary<string, string> {
-		{ "BP_e5030_Rogue_C",			"Lito, the Child Test Subject"},
-		{ "BP_e5110_Gunman_C",	    	"Yolvan, the Black-Winged Huntsman"},
-		{ "BP_e6040_Darker_C",	    	"Caladrius"},
-		{ "BP_e0122_Wheeler_C",			"Squad Leader, Mining Unit 1"},
-		{ "BP_e5200_Pounder_C",			"Garm, the Giant Gravedigger"},
-		{ "BP_e0030_Guard_C",			"Old Upper Stratum Guard"},
-		{ "BP_e5060_Beast_C",			"Shackled Beast"},
-		{ "BP_e6000_Rider_C", 			"Veol, the Crazed Wolf"},
-		{ "BP_e0203_Scarab_C",			"Roller: Giant Orb"},
-		{ "BP_e6010_Cluster_Mode1_C", 	"King of the Garbage Heap P1"},
-		{ "BP_e6010_Cluster_Mode3_C", 	"King of the Garbage Heap"},
-		{ "BP_e5230_Finder_C939925",	"Lars, the Lurker of the Depths 1"},
-		{ "BP_e5230_Finder_C562900",	"Lars, the Lurker of the Depths 2"},
-		{ "BP_e5230_Finder_002_C",		"Lars, the Lurker of the Depths 3"},
-		{ "BP_e6050_Master_C", 			"Gilroy, the Administrator"},
-		{ "BP_e0252_Ninja_C", 			"Combat Puppet: No. 20"},
-		{ "BP_e0253_Ninja_C", 			"Combat Puppet: No. 14"},
-		{ "BP_e0262_Komuso_C", 			"Combat Puppet: No. 56"},
-		{ "BP_e5050_Ronin_C", 			"Combat Puppet: No. 7"},
-		{ "BP_e0281_banshee_C", 		"Marionette: No. 47"},
-		{ "BP_e0233_Researcher_C", 		"Professor Eliza"},
-		{ "BP_e6030_Owner_C", 			"Declan, the Fallen Sorcerer"},
-		{ "BP_e2030_Sector_C",   		"Velnest"},
-		{ "BP_e6020_Director_C", 		"Velgrynd"},
-		{ "BP_e6051_Master_C", 			"Gilroy, the Administrator (Armed Form)"},
-		{ "BP_e5003_Reaper_C",			"Aggressor"},
-		{ "BP_e5070_Witch_C",			"Luiseach, the Iron Witch"},
-//		{ "BP_e0500_Tentacle_C",		"Rooted Primordial Beast"},
-		{ "BP_e5010_Lancer_C",			"Mad Knight Reibolg 1"},
-		{ "BP_e5012_Lancer_C",			"Mad Knight Reibolg 2"},
-//		{ "BP_e0510_Ray_C",				"Soaring Beast of Origin"},
-		{ "BP_e0222_Security_C",    	"Velius - Captain of the Guard"},
-		{ "BP_e6052_Master_C", 			"Gilroy, the Administrator (Absolute Form)"},
-		{ "BP_e6053_Master_C", 			"Gilroy, the Administrator (Absolute Form) B"},
+		{ "BP_e5030_Rogue_C",						"Lito, the Child Test Subject"},
+		{ "BP_e5110_Gunman_C",	    				"Yolvan, the Black-Winged Huntsman"},
+		{ "BP_e6040_Darker_C",	    				"Caladrius"},
+		{ "BP_e0122_Wheeler_C",						"Squad Leader, Mining Unit 1"},
+		{ "BP_e5200_Pounder_C",						"Garm, the Giant Gravedigger"},
+		{ "BP_e0030_Guard_C",						"Old Upper Stratum Guard"},
+		{ "BP_e5060_Beast_C",						"Shackled Beast"},
+		{ "BP_e6000_Rider_C", 						"Veol, the Crazed Wolf"},
+		{ "BP_e0203_Scarab_C",						"Roller: Giant Orb"},
+		{ "BP_e6010_Cluster_Mode1_C", 				"King of the Garbage Heap P1"},
+		{ "BP_e6010_Cluster_Mode3_C", 				"King of the Garbage Heap"},
+		{ "BP_e5230_Finder_C_Quarry_001_Zone_008",	"Lars, the Lurker of the Depths 1"},
+		{ "BP_e5230_Finder_C_Quarry_001_Zone_019",	"Lars, the Lurker of the Depths 2"},
+		{ "BP_e5230_Finder_002_C",					"Lars, the Lurker of the Depths 3"},
+		{ "BP_e6050_Master_C", 						"Gilroy, the Administrator"},
+		{ "BP_e0252_Ninja_C", 						"Combat Puppet: No. 20"},
+		{ "BP_e0253_Ninja_C", 						"Combat Puppet: No. 14"},
+		{ "BP_e0262_Komuso_C", 						"Combat Puppet: No. 56"},
+		{ "BP_e5050_Ronin_C", 						"Combat Puppet: No. 7"},
+		{ "BP_e0281_banshee_C", 					"Marionette: No. 47"},
+		{ "BP_e0233_Researcher_C", 					"Professor Eliza"},
+		{ "BP_e6030_Owner_C", 						"Declan, the Fallen Sorcerer"},
+		{ "BP_e2030_Sector_C",   					"Velnest"},
+		{ "BP_e6020_Director_C", 					"Velgrynd"},
+		{ "BP_e6051_Master_C", 						"Gilroy, the Administrator (Armed Form)"},
+		{ "BP_e5003_Reaper_C",						"Aggressor"},
+		{ "BP_e5070_Witch_C",						"Luiseach, the Iron Witch"},
+//		{ "BP_e0500_Tentacle_C",					"Rooted Primordial Beast"},
+		{ "BP_e5010_Lancer_C",						"Mad Knight Reibolg 1"},
+		{ "BP_e5012_Lancer_C",						"Mad Knight Reibolg 2"},
+//		{ "BP_e0510_Ray_C",							"Soaring Beast of Origin"},
+		{ "BP_e0222_Security_C",    				"Velius - Captain of the Guard"},
+		{ "BP_e6052_Master_C", 						"Gilroy, the Administrator (Absolute Form)"},
+		{ "BP_e6053_Master_C", 						"Gilroy, the Administrator (Absolute Form) B"},
 	};
-	//[20416] BP_e5230_Finder_C939925 
-	//[20416] BP_e5230_Finder_C562900 
 
 	vars.bossesDefaultOff = new HashSet<string> {
 		"BP_e6010_Cluster_Mode1_C",
@@ -265,22 +263,21 @@ split
 		IntPtr obj = vars.GetObject(weakPTR);
 		int name = new DeepPointer(obj + 0x18).Deref<int>(game)	;
 		string str = vars.GetName(name);
+
 		if (!vars.bosses.ContainsKey(str))
-		{
-			str += current.LevelName;
-		}
+			str += "_" + vars.GetName(current.LevelName);
 		if (!vars.bosses.ContainsKey(str) || !settings[str] || vars.splitsDone.Contains(str))
 			return false;
 		
 		// obj->HPComponent->Current
-		int hp = new DeepPointer(obj + 0x8B8, 0x13C).Deref<int>(game);
+		//int hp = new DeepPointer(obj + 0x8B8, 0x13C).Deref<int>(game);
 		
 		// obj->DeathComponent->IsDead
 		bool isDead = new DeepPointer(obj + 0x8D8, 0x3B).Deref<bool>(game);
 		current.dead = isDead;
 		
-		print("boss:" + str +  "hp :" + hp.ToString() +  " dead " +  isDead.ToString() + " ptr " + obj.ToString() +  " -> " + current.EnemyTargetsCount.ToString());
-		if (!old.dead && current.dead)
+		//print("boss:" + str +  "hp :" + hp.ToString() +  " dead " +  isDead.ToString() + " ptr " + obj.ToString() +  " -> " + current.EnemyTargetsCount.ToString());
+		if (current.dead && !old.dead)
 		{
 			vars.splitsDone.Add(str);
 			return true;
