@@ -109,8 +109,9 @@ startup
 		{ "BP_e0203_Scarab_C",			"Roller: Giant Orb"},
 		{ "BP_e6010_Cluster_Mode1_C", 	"King of the Garbage Heap P1"},
 		{ "BP_e6010_Cluster_Mode3_C", 	"King of the Garbage Heap"},
-		{ "BP_e5230_Finder_C",			"Lars, the Lurker of the Depths"},
-		{ "BP_e5230_Finder_002_C",		"Lars, the Lurker of the Depths 2"},
+		{ "BP_e5230_Finder_C939925",	"Lars, the Lurker of the Depths 1"},
+		{ "BP_e5230_Finder_C562900",	"Lars, the Lurker of the Depths 2"},
+		{ "BP_e5230_Finder_002_C",		"Lars, the Lurker of the Depths 3"},
 		{ "BP_e6050_Master_C", 			"Gilroy, the Administrator"},
 		{ "BP_e0252_Ninja_C", 			"Combat Puppet: No. 20"},
 		{ "BP_e0253_Ninja_C", 			"Combat Puppet: No. 14"},
@@ -132,6 +133,9 @@ startup
 		{ "BP_e6052_Master_C", 			"Gilroy, the Administrator (Absolute Form)"},
 		{ "BP_e6053_Master_C", 			"Gilroy, the Administrator (Absolute Form) B"},
 	};
+	//[20416] BP_e5230_Finder_C939925 
+	//[20416] BP_e5230_Finder_C562900 
+
 	vars.bossesDefaultOff = new HashSet<string> {
 		"BP_e6010_Cluster_Mode1_C",
 		"BP_e5110_Gunman_C",
@@ -257,17 +261,23 @@ split
 	var CheckBossSplit = new Func<int, bool>((int weakPTR) =>
 	{
 		IntPtr obj = vars.GetObject(weakPTR);
-		int name = new DeepPointer(obj + 0x18).Deref<int>(game);
+		int name = new DeepPointer(obj + 0x18).Deref<int>(game)	;
 		string str = vars.GetName(name);
-
-		if (!settings[str] || !vars.bosses.ContainsKey(str) || vars.splitsDone.Contains(str))
+		if (!vars.bosses.ContainsKey(str))
+		{
+			str += current.LevelName;
+		}
+		if (!vars.bosses.ContainsKey(str) || !settings[str] || vars.splitsDone.Contains(str))
 			return false;
+		
 		// obj->HPComponent->Current
-		//int hp = new DeepPointer(obj + 0x8B8, 0x13C).Deref<int>(game);
+		int hp = new DeepPointer(obj + 0x8B8, 0x13C).Deref<int>(game);
 		
 		// obj->DeathComponent->IsDead
 		bool isDead = new DeepPointer(obj + 0x8D8, 0x3B).Deref<bool>(game);
 		current.dead = isDead;
+		
+		print("boss:" + str +  "hp :" + hp.ToString() +  " dead " +  isDead.ToString() + " ptr " + obj.ToString() +  " -> " + current.EnemyTargetsCount.ToString());
 		if (!old.dead && current.dead)
 		{
 			vars.splitsDone.Add(str);
