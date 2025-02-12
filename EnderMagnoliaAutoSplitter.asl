@@ -142,6 +142,8 @@ startup
 		"BP_e0252_Ninja_C",
 		"BP_e0253_Ninja_C",
 		"BP_e0262_Komuso_C",
+		"BP_e6052_Master_C",
+		"BP_e6053_Master_C",
 	};
 
 	settings.Add("split_boss", true, "Boss Kill", "config_split");
