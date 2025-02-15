@@ -77,6 +77,13 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.4")
 	int RespawnRestPointID: 0x07EF4980, 0x10A8, 0x38, 0, 0x30, 0x9D8;
 	
 	double timeSinceStartup: 0x07EF4980, 0xA80, 0x78, 0x6C0;
+	
+	
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->InventoryComponent
+	long AptitudeInventory: 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x178;
+	long KeyInventory: 		0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1C8;
+	long QuestInventory: 	0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1D0;
+	long SpiritInventory: 	0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x180;
 }
 
 startup
@@ -88,22 +95,66 @@ startup
 	// locals
 	vars.lastLevel = 0x0;
 
-	// SETTINGS
+	vars.aptitudes = new Dictionary<string, string> {
+		//{ "crouch",	   					"Healing Ward"},
+		//{ "dodge",						"Aerial Jump"},
+		//{ "dodge_weak",					"Fast Travel"},
+		//{ "jump",	    					"Garm's Iron Stake"},
+		//{ "dash",	    					"Hati's Charge"},
+		{ "heal",	    					"Healing Ward"},
+		{ "double_jump",					"Aerial Jump"},
+		{ "fast_travel",					"Fast Travel"},
+		{ "pile_attack",	    			"Garm's Iron Stake"},
+		{ "dash_charge",	    			"Hati's Charge"},
+		{ "wall_grab",	    				"Lar's Grip"},
+		{ "dive",	    					"Dive"},
+		{ "hook",	    					"Motley's Magic Strands"},
+		{ "sp",	    						"Attuner Arts"},
+		{ "dash_charge_underwater",			"Motley's Torrent"},
+		{ "high_jump",						"Garm's Ascent"},
+		{ "wall_charge",					"Lar's Swift Flight"},
+	};
+
+	vars.keys = new Dictionary<string, string> {
+		{ "key_ruins_tuto",					"Subterranean Testing Site Key"},
+		{ "key_lower",	    				"Lower Stratum Key"},
+		{ "key_higher_a",	    			"Frost Lord's Mark"},
+		{ "key_owner",	    				"Grand Sorcerer's Key"},
+		{ "key_higher_b",	    			"Milius Lord's Mark"},
+	};
+
+	vars.quests = new Dictionary<string, string> {
+		{ "quest_artifact",					"Mutated Mineral"},
+		{ "quest_stone",	    			"Frost Vestige"},
+		{ "quest_bird",	    				"Avian Remains"},
+		{ "quest_perfume",	    			"Black Perfume"},
+		{ "quest_eye",	    				"Blighted Pupil"},
+		{ "quest_lithograph",	    		"Stele of the Land of Origin"},
+		{ "quest_board",	    			"Milius Resident Records"},
+		{ "quest_amulet",	    			"Faintly Glowing Aegis Curio"},
+	};
+
+	vars.spirits = new Dictionary<string, string> {
+		{ "s5000_reaper",				"Nola"},
+		{ "s5010_lancer",	    		"Reibolg"},
+		{ "s5110_gunman",	    		"Yolvan"},
+		{ "s5070_witch",	    		"Luiseach"},
+		{ "s5030_rogue",	    		"Lito"},
+		{ "s5050_ronin",	    		"No.7"},
+		{ "s5060_beast",	    		"Shackled Beast"},
+		{ "s5040_maiden",	    		"Lorna"},
+		{ "s5090_owl",	    			"Muninn"},
+		{ "s5080_hawk",	    			"Huginn"},
+	};
 	
-	settings.Add("load_remover", true, "Load Remover");
-	settings.SetToolTip("load_remover", "Pause timer during game loadings, only affects Game Time");
-
-	settings.Add("config_split", true, "Splits Configuration (WIP)");
-	settings.Add("split_ending", true, "Game Endings", "config_split");
-	settings.SetToolTip("split_ending", "Split when reaching Ending A or B");
-
 	vars.bosses = new Dictionary<string, string> {
 		{ "BP_e5030_Rogue_C",						"Lito, the Child Test Subject"},
 		{ "BP_e5110_Gunman_C",	    				"Yolvan, the Black-Winged Huntsman"},
 		{ "BP_e6040_Darker_C",	    				"Caladrius"},
+		{ "BP_e0030_Guard_C",						"Old Upper Stratum Guard"},
 		{ "BP_e0122_Wheeler_C",						"Squad Leader, Mining Unit 1"},
 		{ "BP_e5200_Pounder_C",						"Garm, the Giant Gravedigger"},
-		{ "BP_e0030_Guard_C",						"Old Upper Stratum Guard"},
+		{ "BP_e0162_Gang_C",						"Steeple Executioner"},
 		{ "BP_e5060_Beast_C",						"Shackled Beast"},
 		{ "BP_e6000_Rider_C", 						"Veol, the Crazed Wolf"},
 		{ "BP_e0203_Scarab_C",						"Roller: Giant Orb"},
@@ -144,12 +195,47 @@ startup
 		"BP_e6053_Master_C",
 	};
 
+	// SETTINGS
+	settings.Add("load_remover", true, "Load Remover");
+	settings.SetToolTip("load_remover", "Pause timer during game loadings, only affects Game Time");
+
+	settings.Add("config_split", true, "Splits Configuration");
+	settings.Add("split_ending", true, "Game Endings", "config_split");
+	settings.SetToolTip("split_ending", "Split when reaching Ending A or B");
+
 	settings.Add("split_boss", true, "Boss Kill", "config_split");
 	settings.SetToolTip("split_boss", "Split when killing Bosses");
-	
 	foreach (KeyValuePair<string, string> kvp in vars.bosses)
 	{
 		settings.Add(kvp.Key, !vars.bossesDefaultOff.Contains(kvp.Key), kvp.Value, "split_boss");
+	}
+	
+	settings.Add("split_key", false, "Keys", "config_split");
+	settings.SetToolTip("split_key", "Split when grabbing a key");
+	foreach (KeyValuePair<string, string> kvp in vars.keys)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_key");
+	}
+	
+	settings.Add("split_aptitude", false, "Abilities", "config_split");
+	settings.SetToolTip("split_aptitude", "Split when grabbing an ability");
+	foreach (KeyValuePair<string, string> kvp in vars.aptitudes)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_aptitude");
+	}
+	
+	settings.Add("split_quest", false, "Quest Items", "config_split");
+	settings.SetToolTip("split_quest", "Split when grabbing a quest item");
+	foreach (KeyValuePair<string, string> kvp in vars.quests)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_quest");
+	}
+	
+	settings.Add("split_spirit", false, "Homunculi", "config_split");
+	settings.SetToolTip("split_spirit", "Split when grabbing an Homunculi");
+	foreach (KeyValuePair<string, string> kvp in vars.spirits)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_spirit");
 	}
 }
 
@@ -212,16 +298,19 @@ init
 		}
 	}
 	vars.splitsDone = new HashSet<string>();
+	vars.ready = false;
 }
 
 start
 {
 	vars.splitsDone = new HashSet<string>();
+	vars.ready = false;
 	if (old.LevelBuildDataId != 0 && old.LevelBuildDataId != current.LevelBuildDataId)
 	{
 		vars.lastLevel = old.LevelBuildDataId;
 	}
-	return vars.lastLevel == vars.TitleLevelID && current.LevelBuildDataId == vars.InGameLevelID && old.LevelBuildDataId != current.LevelBuildDataId;
+	bool start = vars.lastLevel == vars.TitleLevelID && current.LevelBuildDataId == vars.InGameLevelID && old.LevelBuildDataId != current.LevelBuildDataId;
+	return start;
 }
 
 update
@@ -229,6 +318,8 @@ update
 	if (version == "Unknown" || version == "")
 		return false;
 
+	//var toto = 0x0000040A;
+	//print(vars.GetName(toto));
 	
 	if (old.LevelBuildDataId != 0 && old.LevelBuildDataId != current.LevelBuildDataId)
 	{
@@ -251,9 +342,30 @@ reset
 
 split
 {
-	if (current.LevelName == null || current.timeSinceStartup <= 0)
+	var CheckInventorySplit = new Func<IntPtr, bool>((IntPtr ptr) =>
+	{
+		int count = new DeepPointer(ptr + 0x60).Deref<int>(game);
+		for (int i = 0; i < count; ++i)	
+		{
+			int item = new DeepPointer(ptr + 0x58, i * 0x14).Deref<int>(game);
+			string str = vars.GetName(item).ToLower();
+		if (!settings.ContainsKey(str) || !settings[str]  || vars.splitsDone.Contains(str))
+				continue;
+			vars.splitsDone.Add(str);
+			print("SPLIT " + str);
+			return true;
+		}
 		return false;
+	});
 	
+	vars.ready = vars.ready || (current.LevelName != null && current.timeSinceStartup > 1 &&
+		!CheckInventorySplit((IntPtr)current.KeyInventory) &&
+		!CheckInventorySplit((IntPtr)current.QuestInventory) &&
+		!CheckInventorySplit((IntPtr)current.SpiritInventory) &&
+		!CheckInventorySplit((IntPtr)current.AptitudeInventory));
+
+	if (!vars.ready)
+		return false;
 	if (settings["split_ending"] &&  old.SaveBackup != current.SaveBackup &&
 		current.LevelName > 0 && vars.GetName(current.LevelName) == "Summit_001_Zone_030")
 		return true;
@@ -261,7 +373,7 @@ split
 	var CheckBossSplit = new Func<int, bool>((int weakPTR) =>
 	{
 		IntPtr obj = vars.GetObject(weakPTR);
-		int name = new DeepPointer(obj + 0x18).Deref<int>(game)	;
+		int name = new DeepPointer(obj + 0x18).Deref<int>(game);
 		string str = vars.GetName(name);
 
 		if (!vars.bosses.ContainsKey(str))
@@ -286,6 +398,16 @@ split
 	});
 	
 	if (current.EnemyTargetsCount > 0 && CheckBossSplit(current.EnemyTargetObjectIndex))
+		return true;
+
+	
+	if (CheckInventorySplit((IntPtr)current.KeyInventory))
+		return true;
+	if (CheckInventorySplit((IntPtr)current.SpiritInventory))
+		return true;
+	if (CheckInventorySplit((IntPtr)current.QuestInventory))
+		return true;
+	if (CheckInventorySplit((IntPtr)current.AptitudeInventory))
 		return true;
 	return false;
 }
