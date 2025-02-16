@@ -84,6 +84,9 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.4")
 	long KeyInventory: 		0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1C8;
 	long QuestInventory: 	0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1D0;
 	long SpiritInventory: 	0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x180;
+	long EquipmentInventory: 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x190;
+	long PassiveInventory: 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1A8;
+	long AssistInventory: 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x0198;
 }
 
 startup
@@ -145,6 +148,108 @@ startup
 		{ "s5040_maiden",	    		"Lorna"},
 		{ "s5090_owl",	    			"Muninn"},
 		{ "s5080_hawk",	    			"Huginn"},
+	};
+
+// bracelets
+	vars.equipments_1 = new Dictionary<string, string> {
+		{"armor_021",			"Celestial Bangle"},
+		{"armor_020",			"Ancient's Fury"},
+		{"armor_019",			"Upper Stratum Bangle"},
+		{"armor_018",			"Aster Bangle"},
+		{"armor_017",			"Sol Bangle"},
+		{"armor_016",			"Lunar Bangle"},
+		{"armor_015",			"Declan's Binds"},
+		{"armor_014",			"Abelia's Bracelet"},
+		{"armor_013",			"Spire Bangle"},
+		{"armor_012",			"Yggdrasil Bangle"},
+		{"armor_011",			"Central Stratum Bangle"},
+		{"armor_010",			"Beast Bangle"},
+		{"armor_009",			"Flower Bangle"},
+		{"armor_008",			"Crimson Bangle"},
+		{"armor_007",			"Chloe's Bracelet"},
+		{"armor_006",			"Dagger Bangle"},
+		{"armor_005",			"Bone Bangle"},
+		{"armor_004",			"Stone Bangle"},
+		{"armor_003",			"Thistle Bangle"},
+		{"armor_002",			"Crude Bangle"},
+		{"armor_001",			"Worn Bangle"},
+	};
+
+// carapaces
+	vars.equipments_2 = new Dictionary<string, string> {
+		{"shield_009",			"Luiseach's Carapace"},
+		{"shield_008",			"Primordial Heirloom"},
+		{"shield_007",			"Blessed Carapace"},
+		{"shield_006",			"High Enhancer"},
+		{"shield_005",			"Impact Carapace"},
+		{"shield_004",			"Pyroflective Carapace"},
+		{"shield_003",			"Reflective Carapace"},
+		{"shield_002",			"Enhancer"},
+		{"shield_001",			"Protective Carapace"},
+	};
+
+// totems
+	vars.assists = new Dictionary<string, string> {
+		{"assist_012",			"Cetus"},
+		{"assist_011",			"Ilion"},
+		{"assist_010",			"Typhon"},
+		{"assist_009",			"Chiron"},
+		{"assist_008",			"Ares"},
+		{"assist_007",			"Lyra"},
+		{"assist_006",			"Spica"},
+		{"assist_005",			"Regulus"},
+		{"assist_004",			"Carcinus"},
+		{"assist_003",			"Gemini"},
+		{"assist_002",			"Taurus"},
+		{"assist_001",			"Krios"},
+	};
+
+// relics
+	vars.passives = new Dictionary<string, string> {
+		{"damage_up_grounded",				"Chain Belt"},
+		{"damage_up_airborne",				"Sanguinary Raven"},
+		{"damage_up_swimming",				"Attuner's Pendant"},
+		{"damage_up_skillcategory_combo",	"Echo Device"},
+		{"damage_up_skillcategory_repeat",	"Pure Floral Necklace"},
+		{"damage_up_skillcategory_defence",	"Arena Tower Demon Mask"},
+		{"damage_up_skillcategory_auto",	"House Milius Earrings"},
+		{"damage_up_skillcategory_special",	"Cracked Magicite Dagger"},
+		{"damage_up_maxhp",					"Magic Strand Charm"},
+		{"damage_up_minhp",					"Jagged Crystal"},
+		{"damage_up_sp_gauge",				"Priestess' Tears"},
+		{"damage_up_debuffed",				"Battered Grimoire"},
+		{"damage_up_targetdebuffed",		"Vivid Claws"},
+		{"damage_up_targetstunned",			"Cleaner's Tag"},
+		{"reduce_skill_cooldown",			"Eye of the Ancients"},
+		{"stamina_damage_up_a",				"Blighted Talisman"},
+		{"stamina_damage_up_b",				"Mysterious Glowing Can"},
+		{"debuff_damage_up_a",				"Survey Team Gauntlet"},
+		{"debuff_damage_up_b", 				"Sorcerer's Gauntlet"},
+		{"restore_sp_up_a", 				"Chief Attuner's Ring"},
+		{"restore_sp_up_b", 				"Nameless Priestess' Ring"},
+		{"onattack_restorehp", 				"Declan's Ring"},
+		{"onattack_restorehp_damage", 		"Cain's Ring"},
+		{"onattack_instantkill", 			"Abelia's Ring"},
+		{"onkill_restorehp", 				"Helix Crystal"},
+		{"onkill_restoresp", 				"Attuner's Earrings"},
+		{"onkill_reduce_cooldowns", 		"Magicite Hairpin"},
+		{"onkill_drops", 					"Headless Gold Statue"},
+		{"damage_cut_physic", 				"Tarnished Tag"},
+		{"damage_cut_debuff_down", 			"Laborer's Tag"},
+		{"damage_cut_debuffed", 			"Bloodstained Stuffed Toy"},
+		{"damage_cut_maxhp", 				"Beast Horn Ornament"},
+		{"damage_cut_minhp", 				"Effigy"},
+		{"damage_cut_sp_gauge", 			"Crystallized Fusion"},
+		{"experience_up", 					"Blighted Dice"},
+		{"gold_up", 						"Eye of the Beast"},
+		{"junk_up", 						"Eye of the Homunculus"},
+		{"higher_mobility", 				"Leg Enhancement Gear"},
+		{"debuff_cut_burn", 				"Crimson Ribbon"},
+		{"dodge_long", 						"Evasive Fragrance"},
+		{"exploration_charge_short", 		"Enhancement Gear"},
+		{"heal_short", 						"Ward Propagator"},
+		{"reduce_gravity", 					"Incomplete Gear"},
+		{"ending_flag", 					"Lilia's Blighted Ring"},
 	};
 	
 	vars.bosses = new Dictionary<string, string> {
@@ -208,6 +313,7 @@ startup
 	foreach (KeyValuePair<string, string> kvp in vars.bosses)
 	{
 		settings.Add(kvp.Key, !vars.bossesDefaultOff.Contains(kvp.Key), kvp.Value, "split_boss");
+		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 	
 	settings.Add("split_key", false, "Keys", "config_split");
@@ -215,6 +321,7 @@ startup
 	foreach (KeyValuePair<string, string> kvp in vars.keys)
 	{
 		settings.Add(kvp.Key, true, kvp.Value, "split_key");
+		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 	
 	settings.Add("split_aptitude", false, "Abilities", "config_split");
@@ -222,6 +329,7 @@ startup
 	foreach (KeyValuePair<string, string> kvp in vars.aptitudes)
 	{
 		settings.Add(kvp.Key, true, kvp.Value, "split_aptitude");
+		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 	
 	settings.Add("split_quest", false, "Quest Items", "config_split");
@@ -229,6 +337,7 @@ startup
 	foreach (KeyValuePair<string, string> kvp in vars.quests)
 	{
 		settings.Add(kvp.Key, true, kvp.Value, "split_quest");
+		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 	
 	settings.Add("split_spirit", false, "Homunculi", "config_split");
@@ -236,6 +345,39 @@ startup
 	foreach (KeyValuePair<string, string> kvp in vars.spirits)
 	{
 		settings.Add(kvp.Key, true, kvp.Value, "split_spirit");
+		settings.SetToolTip(kvp.Key, kvp.Key);
+	}
+	
+	settings.Add("split_equipment_1", false, "Bracelets", "config_split");
+	settings.SetToolTip("split_equipment_1", "Split when grabbing a bracelet");
+	foreach (KeyValuePair<string, string> kvp in vars.equipments_1)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_equipment_1");
+		settings.SetToolTip(kvp.Key, kvp.Key);
+	}
+
+	settings.Add("split_equipment_2", false, "Carapaces", "config_split");
+	settings.SetToolTip("split_equipment_2", "Split when grabbing a carapace");
+	foreach (KeyValuePair<string, string> kvp in vars.equipments_2)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_equipment_2");
+		settings.SetToolTip(kvp.Key, kvp.Key);
+	}
+
+	settings.Add("split_assist", false, "Totems", "config_split");
+	settings.SetToolTip("split_assist", "Split when grabbing a totem");
+	foreach (KeyValuePair<string, string> kvp in vars.assists)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_assist");
+		settings.SetToolTip(kvp.Key, kvp.Key);
+	}
+
+	settings.Add("split_passive", false, "Relics", "config_split");
+	settings.SetToolTip("split_passive", "Split when grabbing a relic");
+	foreach (KeyValuePair<string, string> kvp in vars.passives)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_passive");
+		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 }
 
@@ -318,9 +460,24 @@ update
 	if (version == "Unknown" || version == "")
 		return false;
 
-	//var toto = 0x0000040A;
+	//var toto = 0x1DE254;
 	//print(vars.GetName(toto));
-	
+/*
+	var CheckDataInventory = new Func<IntPtr, bool>((IntPtr ptr) =>
+	{
+		int count = new DeepPointer(ptr + 0xF8, 0x38).Deref<int>(game);
+		print(count.ToString());
+		var str = "";
+		for (int i = 0; i < count; ++i)	
+		{
+			int item = new DeepPointer(ptr + 0xF8, 0x30, i * 0x18).Deref<int>(game);
+			str += vars.GetName(item).ToLower() + ";";
+		}
+		print(str);
+		return false;
+});*/
+	//CheckDataInventory((IntPtr)current.AssistInventory);
+	 
 	if (old.LevelBuildDataId != 0 && old.LevelBuildDataId != current.LevelBuildDataId)
 	{
 		vars.lastLevel = old.LevelBuildDataId;
@@ -342,27 +499,37 @@ reset
 
 split
 {
-	var CheckInventorySplit = new Func<IntPtr, bool>((IntPtr ptr) =>
+	var CheckInventorySplit = new Func<bool>(() =>
 	{
-		int count = new DeepPointer(ptr + 0x60).Deref<int>(game);
-		for (int i = 0; i < count; ++i)	
+		var items = new IntPtr[] {(IntPtr)current.AptitudeInventory,
+					 (IntPtr)current.KeyInventory,
+					 (IntPtr)current.QuestInventory,
+					 (IntPtr)current.SpiritInventory,
+					 (IntPtr)current.EquipmentInventory,
+					 (IntPtr)current.PassiveInventory,
+					 (IntPtr)current.AssistInventory,
+					};
+		bool split = false;
+		foreach (var ptr in items)
 		{
-			int item = new DeepPointer(ptr + 0x58, i * 0x14).Deref<int>(game);
-			string str = vars.GetName(item).ToLower();
-		if (!settings.ContainsKey(str) || !settings[str]  || vars.splitsDone.Contains(str))
-				continue;
-			vars.splitsDone.Add(str);
-			print("SPLIT " + str);
-			return true;
+			int count = new DeepPointer(ptr + 0x60).Deref<int>(game);
+			for (int i = 0; i < count; ++i)	
+			{
+				int item = new DeepPointer(ptr + 0x58, i * 0x14).Deref<int>(game);
+				string str = vars.GetName(item).ToLower();
+				if (!settings.ContainsKey(str) || !settings[str]  || vars.splitsDone.Contains(str))
+					continue;
+				vars.splitsDone.Add(str);
+				//print("SPLIT" + str);
+				split = true;
+				if (vars.ready)
+					return true;
+			}
 		}
-		return false;
+		return split;
 	});
-	
-	vars.ready = vars.ready || (current.LevelName != null && current.timeSinceStartup > 1 &&
-		!CheckInventorySplit((IntPtr)current.KeyInventory) &&
-		!CheckInventorySplit((IntPtr)current.QuestInventory) &&
-		!CheckInventorySplit((IntPtr)current.SpiritInventory) &&
-		!CheckInventorySplit((IntPtr)current.AptitudeInventory));
+
+	vars.ready = vars.ready || (current.LevelName != null && current.timeSinceStartup > 1 && !CheckInventorySplit());
 
 	if (!vars.ready)
 		return false;
@@ -401,13 +568,7 @@ split
 		return true;
 
 	
-	if (CheckInventorySplit((IntPtr)current.KeyInventory))
-		return true;
-	if (CheckInventorySplit((IntPtr)current.SpiritInventory))
-		return true;
-	if (CheckInventorySplit((IntPtr)current.QuestInventory))
-		return true;
-	if (CheckInventorySplit((IntPtr)current.AptitudeInventory))
+	if (CheckInventorySplit())
 		return true;
 	return false;
 }
