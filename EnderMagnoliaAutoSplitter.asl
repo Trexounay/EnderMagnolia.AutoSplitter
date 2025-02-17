@@ -79,7 +79,7 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.4")
 	double timeSinceStartup: 0x07EF4980, 0xA80, 0x78, 0x6C0;
 	
 	
-	// GEngine->GameInstance->LocalPlayer->0->PlayerController->InventoryComponent
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->InventoryComponent->xx
 	long AptitudeInventory: 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x178;
 	long KeyInventory: 		0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1C8;
 	long QuestInventory: 	0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1D0;
@@ -87,6 +87,10 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.4")
 	long EquipmentInventory: 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x190;
 	long PassiveInventory: 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1A8;
 	long AssistInventory: 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x0198;
+	
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerUI->WBP_Minimap->CurrentWidgetArea->CachedMapIcons
+	long CachedIcons:	 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x498;
+	int CachedIconsCount:	 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x4A0;
 }
 
 startup
@@ -299,6 +303,57 @@ startup
 		"BP_e6052_Master_C",
 		"BP_e6053_Master_C",
 	};
+	
+	vars.restpoints = new Dictionary<string, string> {
+		//{"forest_bridge",		 "Crimson Forest Bridge"},
+		//{"sys_init",			 "Place of Awakening"},
+		//{"sys_post_event",	 "Place of the Forsaken"},
+
+		{"ruins_first",			 "Subterranean Lab"},
+		{"ruins_lab",			 "Test Subject Wing"},
+		{"crossroad_camp",		 "Abandoned Attuner Tent"},
+		{"slum_camp",			 "Private Quarters"},
+		{"street_clocktower",	 "Clock Tower Plaza - Entrance"},
+		{"street_towergate",	 "Tethered Steeple - Entrance"},
+		{"mine_room1",			 "Broken Apparatus"},
+		{"mine_room2",			 "Rest Area"},
+		{"mine_room3",			 "Floral Cavern"},
+		{"sewer_left",			 "Attuner's Respite"},
+		{"tower_high",			 "Decaying Room"},
+		{"tower_low",			 "Assembly Hall"},
+		{"tower_gate",			 "Forest Barrier - Entrance"},
+		{"forest_tree",			 "Great Tree of the Crimson Forest"},
+		{"forest_village",		 "Crimson Forest Settlement"},
+		{"swamp_lake",			 "Cleaner's Refuge"},
+		{"swamp_center",		 "Discarded Bench"},
+		{"swamp_trash",			 "Administrative Section"},
+		{"quarry_room",			 "Fungal Refuge"},
+		{"quarry_room2",		 "Central Room"},
+		{"quarry_room3",		 "Unblighted Path"},
+		{"kowlon_room4",		 "Steel District Bench"},
+		{"kowlon_room",			 "Combat Puppet Quarters"},
+		{"kowlon_room2",		 "Arena Tower"},
+		{"kowloon_room3",		 "Before the Guiding Bridge"},
+		{"paradice_room",		 "Sage's Study"},
+		{"paradice_room2",		 "Underground Observatory"},
+		{"paradice_room3",		 "The Lord's Chambers"},
+		{"garden_room",			 "Main Academy Building Entrance"},
+		{"garden_room2",		 "Central Plaza"},
+		{"garden_room3",		 "Vacant Courtyard"},
+		{"factory_room",		 "Runaway's Abode"},
+		{"factory_room2",		 "Labor Regulation Center"},
+		{"factory_room3",		 "Control Center"},
+		{"labo_room",			 "Great Orb of Intellect"},
+		{"labo_room2",			 "Rooftop"},
+		{"labo_room3",			 "Forbidden Text Archive"},
+		{"estate_room",		 	 "Dust-covered Sofa"},
+		{"center_bench",		 "Central City Bench"},
+		{"summit_lobby",		 "Empyrean Parasol Interior"},
+		{"summit_last",			 "Before the Throne"},
+		{"roots_top",			 "Path of Origin"},
+		{"roots_left",			 "Ancient Resting Place"},
+		{"roots_right",			 "Ritual Site"},
+	};
 
 	// SETTINGS
 	settings.Add("load_remover", true, "Load Remover");
@@ -315,12 +370,12 @@ startup
 		settings.Add(kvp.Key, !vars.bossesDefaultOff.Contains(kvp.Key), kvp.Value, "split_boss");
 		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
-	
-	settings.Add("split_key", false, "Keys", "config_split");
-	settings.SetToolTip("split_key", "Split when grabbing a key");
-	foreach (KeyValuePair<string, string> kvp in vars.keys)
+
+	settings.Add("split_restpoint", false, "Respites", "config_split");
+	settings.SetToolTip("split_restpoint", "Split when reaching a respite");
+	foreach (KeyValuePair<string, string> kvp in vars.restpoints)
 	{
-		settings.Add(kvp.Key, true, kvp.Value, "split_key");
+		settings.Add(kvp.Key, true, kvp.Value, "split_restpoint");
 		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 	
@@ -329,6 +384,14 @@ startup
 	foreach (KeyValuePair<string, string> kvp in vars.aptitudes)
 	{
 		settings.Add(kvp.Key, true, kvp.Value, "split_aptitude");
+		settings.SetToolTip(kvp.Key, kvp.Key);
+	}
+	
+	settings.Add("split_key", false, "Keys", "config_split");
+	settings.SetToolTip("split_key", "Split when grabbing a key");
+	foreach (KeyValuePair<string, string> kvp in vars.keys)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_key");
 		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 	
@@ -441,12 +504,15 @@ init
 	}
 	vars.splitsDone = new HashSet<string>();
 	vars.ready = false;
+	vars.respites = new Dictionary<string, int>();
 }
 
 start
 {
 	vars.splitsDone = new HashSet<string>();
 	vars.ready = false;
+	vars.respites = new Dictionary<string, int>();
+	
 	if (old.LevelBuildDataId != 0 && old.LevelBuildDataId != current.LevelBuildDataId)
 	{
 		vars.lastLevel = old.LevelBuildDataId;
@@ -460,7 +526,8 @@ update
 	if (version == "Unknown" || version == "")
 		return false;
 
-	//var toto = 0x1DE254;
+
+	//var toto = 0x001E225A;
 	//print(vars.GetName(toto));
 /*
 	var CheckDataInventory = new Func<IntPtr, bool>((IntPtr ptr) =>
@@ -501,14 +568,21 @@ split
 {
 	var CheckInventorySplit = new Func<bool>(() =>
 	{
-		var items = new IntPtr[] {(IntPtr)current.AptitudeInventory,
-					 (IntPtr)current.KeyInventory,
-					 (IntPtr)current.QuestInventory,
-					 (IntPtr)current.SpiritInventory,
-					 (IntPtr)current.EquipmentInventory,
-					 (IntPtr)current.PassiveInventory,
-					 (IntPtr)current.AssistInventory,
-					};
+		var ptrs = new Dictionary<string, IntPtr>{
+					{"split_aptitude",		(IntPtr)current.AptitudeInventory},
+					{"split_key", 			(IntPtr)current.KeyInventory},
+					{"split_quest",			(IntPtr)current.QuestInventory},
+					{"split_spirit",		(IntPtr)current.SpiritInventory},
+					{"split_equipment_1",	(IntPtr)current.EquipmentInventory},
+					{"split_equipment_2",	(IntPtr)current.EquipmentInventory},
+					{"split_passive",		(IntPtr)current.PassiveInventory},
+					{"split_assist",		(IntPtr)current.AssistInventory},
+			};
+
+		var items = new HashSet<IntPtr> {};
+		foreach (var kvp in ptrs)
+			if (settings[kvp.Key])
+				items.Add(kvp.Value);
 		bool split = false;
 		foreach (var ptr in items)
 		{
@@ -520,7 +594,6 @@ split
 				if (!settings.ContainsKey(str) || !settings[str]  || vars.splitsDone.Contains(str))
 					continue;
 				vars.splitsDone.Add(str);
-				//print("SPLIT" + str);
 				split = true;
 				if (vars.ready)
 					return true;
@@ -548,14 +621,9 @@ split
 		if (!vars.bosses.ContainsKey(str) || !settings[str] || vars.splitsDone.Contains(str))
 			return false;
 		
-		// obj->HPComponent->Current
-		//int hp = new DeepPointer(obj + 0x8B8, 0x13C).Deref<int>(game);
-		
-		// obj->DeathComponent->IsDead
 		bool isDead = new DeepPointer(obj + 0x8D8, 0x3B).Deref<bool>(game);
 		current.dead = isDead;
 		
-		//print("boss:" + str +  "hp :" + hp.ToString() +  " dead " +  isDead.ToString() + " ptr " + obj.ToString() +  " -> " + current.EnemyTargetsCount.ToString());
 		if (current.dead && !old.dead)
 		{
 			vars.splitsDone.Add(str);
@@ -564,12 +632,39 @@ split
 		return false;
 	});
 	
-	if (current.EnemyTargetsCount > 0 && CheckBossSplit(current.EnemyTargetObjectIndex))
+	if (settings["split_boss"] && current.EnemyTargetsCount > 0 && CheckBossSplit(current.EnemyTargetObjectIndex))
 		return true;
 
 	
 	if (CheckInventorySplit())
 		return true;
+	
+	if (settings["split_restpoint"])
+	{
+		int count = current.CachedIconsCount;
+		IntPtr ptr = (IntPtr)current.CachedIcons;
+		for (int i = 0; i < count; ++i)
+		{
+			int name = new DeepPointer(ptr + i * 0x8, 0x5E0).Deref<int>(game);
+			if (name > 0)
+			{
+				string str = vars.GetName(name);
+				if (string.IsNullOrEmpty(str) || !vars.restpoints.ContainsKey(str) || !settings[str] || vars.splitsDone.Contains(str))
+					continue;
+				int visible = new DeepPointer(ptr + i * 0x8, 0xDC).Deref<int>(game);
+				if (!(vars as IDictionary<string, object>).ContainsKey("respites"))
+					vars.respites = new Dictionary<string, int>();
+				if (visible == 4 && vars.respites.ContainsKey(str) && vars.respites[str] == 2)
+				{
+					vars.respites[str] = visible;
+					vars.splitsDone.Add(str);
+					return true;
+				}
+				vars.respites[str] = visible;
+			}
+		}
+	}
+
 	return false;
 }
 
