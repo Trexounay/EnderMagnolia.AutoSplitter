@@ -92,6 +92,55 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.4")
 	long CachedIcons:	 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x498;
 	int CachedIconsCount:	 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x4A0;
 }
+state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.1.0")
+{
+	// GEngine : 0x80C5F00
+	// GEngine->GameViewport->World
+	long world: 0x80C5F00, 0xA80, 0x78;
+
+	// GEngine->GameViewport->World->PersistentLevel->LevelBuildDataId
+	long LevelBuildDataId: 0x80C5F00, 0xA80, 0x78, 0x30, 0x210;
+	
+	// GEngine->GameViewport->World->GameMode->ZoneSystemComponent->ActiveZoneLevelStreaming->Name
+	int LevelName: 0x80C5F00, 0xA80, 0x78, 0x158, 0x4B0, 0xF8, 0x38;
+	
+	// GEngine->GameViewport->World->GameMode->ZoneSystemComponent->ActiveZoneLevelStreaming->Name
+	int PackageNameToLoad: 0x80C5F00, 0xA80, 0x78, 0x158, 0x4B0, 0xF8, 0x54;
+	
+	// GEngine->GameViewport->World->GameMode->ZoneSystemComponent->switchingZone
+	bool switchingZone: 0x80C5F00, 0xA80, 0x78, 0x158, 0x4B0, 0x101;
+	
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerCameraManager->ViewTargetActor->EnemyPawnTargets->Count
+	int EnemyTargetsCount: 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x320, 0xA40;
+
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerCameraManager->ViewTargetActor->EnemyPawnTargets->0
+	int EnemyTargetObjectIndex: 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x320, 0xA38, 0x0;
+	
+	// GEngine->GameInstance->SybSystems->WorldLoader->IsLoading
+	bool isLoading: 0x80C5F00, 0x10A8, 0x108, 0x128, 0xA8;
+
+	// GEngine->GameInstance->SybSystems->Save->SaveBackupNumber
+	int SaveBackup: 0x80C5F00, 0x10A8, 0x108, 0x50, 0x7C;
+	
+	int RespawnRestPointID: 0x80C5F00, 0x10A8, 0x38, 0, 0x30, 0x9D8;
+	
+	double timeSinceStartup: 0x80C5F00, 0xA80, 0x78, 0x6C0;
+	
+	
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->InventoryComponent->xx
+	long AptitudeInventory:  0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x178;
+	long KeyInventory: 		 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1C8;
+	long QuestInventory: 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1D0;
+	long SpiritInventory: 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x180;
+	long EquipmentInventory: 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x190;
+	long PassiveInventory: 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1A8;
+	long AssistInventory: 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x0198;
+	
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerUI->WBP_Minimap->CurrentWidgetArea->CachedMapIcons
+	long CachedIcons:	 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x498;
+	int CachedIconsCount:	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x4A0;
+}
+
 
 startup
 {
@@ -293,6 +342,38 @@ startup
 		{ "BP_e6052_Master_C", 						"Gilroy, the Administrator (Absolute Form)"},
 		{ "BP_e6053_Master_C", 						"Gilroy, the Administrator (Absolute Form) B"},
 	};
+	vars.bosses_rooms = new Dictionary<string, string> {
+		{ "Ruins_001_Zone_012",						"Lito, the Child Test Subject"},
+		{ "Street_001_Zone_004",	    			"Yolvan, the Black-Winged Huntsman"},
+		{ "Street_001_Zone_017",					"Old Upper Stratum Guard"},
+		{ "Mine_001_Zone_004",						"Squad Leader, Mining Unit 1"},
+		{ "Mine_001_Zone_017",						"Garm, the Giant Gravedigger"},
+		{ "Tower_001_Zone_010",						"Steeple Executioner"},
+		{ "Tower_001_Zone_016",						"Shackled Beast"},
+		{ "Forest_001_Zone_022", 					"Veol, the Crazed Wolf"},
+		{ "Swamp_001_Zone_004",						"Roller: Giant Orb"},
+		{ "Swamp_001_Zone_015", 					"King of the Garbage Heap"},
+		{ "Quarry_001_Zone_008",					"Lars, the Lurker of the Depths 1"},
+		{ "Quarry_001_Zone_019",					"Lars, the Lurker of the Depths 2"},
+		{ "Quarry_001_Zone_022",					"Lars, the Lurker of the Depths 3"},
+		{ "Central_001_Zone_001", 					"Gilroy, the Administrator"},
+		{ "Kowloon_001_Zone_048", 					"Combat Puppet: No. 20"},
+		{ "Kowloon_001_Zone_049", 					"Combat Puppet: No. 14"},
+		{ "Kowloon_001_Zone_050", 					"Combat Puppet: No. 56"},
+		{ "Kowloon_001_Zone_051", 					"Combat Puppet: No. 7"},
+		{ "Paradise_001_Zone_008", 					"Marionette: No. 47"},
+		{ "Garden_001_Zone_005", 					"Professor Eliza"},
+		{ "Paradise_001_Zone_018", 					"Declan, the Fallen Sorcerer"},
+		{ "Factory_001_Zone_010",   				"Velnest"},
+		{ "Factory_001_Zone_017", 					"Velgrynd"},
+		{ "Labo_001_Zone_020", 						"Gilroy, the Administrator (Armed Form)"},
+		{ "Labo_001_Zone_003",						"Aggressor"},
+		{ "Garden_001_Zone_011",					"Luiseach, the Iron Witch"},
+		{ "Quarry_001_Zone_031",					"Mad Knight Reibolg 1"},
+		{ "Roots_001_Zone_001",						"Mad Knight Reibolg 2"},
+		{ "Summit_001_Zone_021",    				"Velius - Captain of the Guard"},
+		{ "Summit_001_Zone_030", 					"Gilroy, the Administrator (Absolute Form)"},
+	};
 
 	vars.bossesDefaultOff = new HashSet<string> {
 		"BP_e6010_Cluster_Mode1_C",
@@ -368,6 +449,14 @@ startup
 	foreach (KeyValuePair<string, string> kvp in vars.bosses)
 	{
 		settings.Add(kvp.Key, !vars.bossesDefaultOff.Contains(kvp.Key), kvp.Value, "split_boss");
+		settings.SetToolTip(kvp.Key, kvp.Key);
+	}
+
+	settings.Add("split_boss_room", false, "Boss Room", "config_split");
+	settings.SetToolTip("split_boss_room", "Split when entering a boss room");
+	foreach (KeyValuePair<string, string> kvp in vars.bosses_rooms)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_boss_room");
 		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 
@@ -475,6 +564,11 @@ init
 	
 	switch(MD5Hash)
 	{
+		case "DC8AA145769EEE84068846F2B0446F3A": { 
+			vars.fNamePool = 0x07E92A40;
+			vars.GUObjectArray = 0x07F497A0;
+			version = "Steam 1.1.0"; break;
+		}
 		case "E1B61EB5CE59F921CA9D3A671A197BFA": { 
 			vars.fNamePool = 0x07CC14C0;
 			vars.GUObjectArray = 0x07D78220;
@@ -524,27 +618,7 @@ start
 update
 {
 	if (version == "Unknown" || version == "")
-		return false;
-
-
-	//var toto = 0x001E225A;
-	//print(vars.GetName(toto));
-/*
-	var CheckDataInventory = new Func<IntPtr, bool>((IntPtr ptr) =>
-	{
-		int count = new DeepPointer(ptr + 0xF8, 0x38).Deref<int>(game);
-		print(count.ToString());
-		var str = "";
-		for (int i = 0; i < count; ++i)	
-		{
-			int item = new DeepPointer(ptr + 0xF8, 0x30, i * 0x18).Deref<int>(game);
-			str += vars.GetName(item).ToLower() + ";";
-		}
-		print(str);
-		return false;
-});*/
-	//CheckDataInventory((IntPtr)current.AssistInventory);
-	 
+		return false;	 
 	if (old.LevelBuildDataId != 0 && old.LevelBuildDataId != current.LevelBuildDataId)
 	{
 		vars.lastLevel = old.LevelBuildDataId;
@@ -634,7 +708,16 @@ split
 	
 	if (settings["split_boss"] && current.EnemyTargetsCount > 0 && CheckBossSplit(current.EnemyTargetObjectIndex))
 		return true;
-
+	
+	
+	if (settings["split_boss_room"] && current.LevelName != 0 && old.LevelName != current.LevelName)
+	{
+		string str = vars.GetName(current.LevelName);
+		if (!settings[str] || vars.splitsDone.Contains(str))
+			return false;
+		vars.splitsDone.Add(str);
+		return true;
+	}
 	
 	if (CheckInventorySplit())
 		return true;
