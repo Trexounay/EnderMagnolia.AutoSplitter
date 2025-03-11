@@ -87,6 +87,8 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.0.4")
 	long EquipmentInventory: 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x190;
 	long PassiveInventory: 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1A8;
 	long AssistInventory: 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x0198;
+	long MaterialInventory:  0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x01B0;
+	long StatsInventory:  	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x01A0;
 	
 	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerUI->WBP_Minimap->CurrentWidgetArea->CachedMapIcons
 	long CachedIcons:	 	 0x07EF4980, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x498;
@@ -135,6 +137,8 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.1.0")
 	long EquipmentInventory: 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x190;
 	long PassiveInventory: 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1A8;
 	long AssistInventory: 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x0198;
+	long MaterialInventory:  0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x01B0;
+	long StatsInventory:  	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x01A0;
 	
 	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerUI->WBP_Minimap->CurrentWidgetArea->CachedMapIcons
 	long CachedIcons:	 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x498;
@@ -241,6 +245,56 @@ startup
 		{"shield_001",			"Protective Carapace"},
 	};
 
+// materials
+	vars.materials = new Dictionary<string, string> {
+		{"parts_lv2_b", "Experimental Amplifier"},
+		{"parts_lv2_c", "Mixed Parts"},
+		{"parts_lv3_b", "Obsolete Core"},
+		{"parts_lv3_c", "Antiquated Parts"},
+		{"parts_lv4_a", "New Model Core"},
+		{"parts_lv4_b", "Magic Amplifier"},
+		{"parts_lv4_c", "New Model Parts"},
+		{"parts_lv5_a", "Special Alloy Core"},
+		{"parts_lv5_b", "Special Alloy Amplifier"},
+		{"parts_lv5_c", "Special Alloy Part"},
+		{"parts_lv6_a", "Origin Gem Core"},
+		{"parts_lv6_b", "Administrator's Amplifier"},
+		{"parts_lv6_c", "Highest-grade Parts"},
+		{"parts_s5000_a", "Unidentified Core"},
+		{"parts_s5000_b", "Unidentified Amplifier"},
+		{"parts_s5000_c", "Unidentified Transformer"},
+	};
+	
+// grimoires 
+	vars.grimoires = new Dictionary<string, string> {
+		{"shop_line_up", "Grimoire"},
+	};
+
+	vars.obj_count = new Dictionary<string, int> {
+		{"parts_lv2_b",   2},
+		{"parts_lv2_c",   2},
+		
+		{"parts_lv3_b",   2},
+		{"parts_lv3_c",   2},
+		
+		{"parts_lv4_a",   2},
+		{"parts_lv4_b",   4},
+		{"parts_lv4_c",   4},
+		
+		{"parts_lv5_a",   3},
+		{"parts_lv5_b",   4},
+		{"parts_lv5_c",   4},
+		
+		{"parts_lv6_a",   7},
+		{"parts_lv6_b",   9},
+		{"parts_lv6_c",   9},
+		
+		{"parts_s5000_a", 3},
+		{"parts_s5000_b", 3},
+		{"parts_s5000_c", 3},
+		
+		{"shop_line_up",  12},
+	};
 // totems
 	vars.assists = new Dictionary<string, string> {
 		{"assist_012",			"Cetus"},
@@ -452,7 +506,7 @@ startup
 		settings.SetToolTip(kvp.Key, kvp.Key);
 	}
 
-	settings.Add("split_boss_room", false, "Boss Room", "config_split");
+	settings.Add("split_boss_room", false, "Boss Rooms", "config_split");
 	settings.SetToolTip("split_boss_room", "Split when entering a boss room");
 	foreach (KeyValuePair<string, string> kvp in vars.bosses_rooms)
 	{
@@ -530,6 +584,30 @@ startup
 	{
 		settings.Add(kvp.Key, true, kvp.Value, "split_passive");
 		settings.SetToolTip(kvp.Key, kvp.Key);
+	}
+
+	settings.Add("split_material", false, "Components", "config_split");
+	settings.SetToolTip("split_material", "Split when pickup up a component");
+	foreach (KeyValuePair<string, string> kvp in vars.materials)
+	{
+		settings.Add(kvp.Key, true, kvp.Value, "split_material");
+		settings.SetToolTip(kvp.Key, kvp.Key);
+		for (int i = 1; i <= vars.obj_count[kvp.Key]; ++i)
+		{
+			var key = kvp.Key + "_" + i.ToString();
+			var text = i.ToString() + "/"  + vars.obj_count[kvp.Key].ToString();
+			settings.Add(key, true, text, kvp.Key);
+		}
+	}
+
+	settings.Add("split_grimoire", false, "Grimoires", "config_split");
+	settings.SetToolTip("split_grimoire", "Split when pickup up a grimoire");
+	foreach (KeyValuePair<string, string> kvp in vars.grimoires)
+	{
+		for (int i = 1; i <= vars.obj_count[kvp.Key]; ++i)
+		{
+			settings.Add(kvp.Key + "_" + i.ToString(), true, i.ToString() + "/"  + vars.obj_count[kvp.Key].ToString(), "split_grimoire");
+		}
 	}
 }
 
@@ -651,6 +729,8 @@ split
 					{"split_equipment_2",	(IntPtr)current.EquipmentInventory},
 					{"split_passive",		(IntPtr)current.PassiveInventory},
 					{"split_assist",		(IntPtr)current.AssistInventory},
+					{"split_material",		(IntPtr)current.MaterialInventory},
+					{"split_grimoire",		(IntPtr)current.StatsInventory},
 			};
 
 		var items = new HashSet<IntPtr> {};
@@ -665,8 +745,15 @@ split
 			{
 				int item = new DeepPointer(ptr + 0x58, i * 0x14).Deref<int>(game);
 				string str = vars.GetName(item).ToLower();
-				if (!settings.ContainsKey(str) || !settings[str]  || vars.splitsDone.Contains(str))
+				if (vars.obj_count.ContainsKey(str))
+				{
+					int quantity = new DeepPointer(ptr + 0x58, (i * 0x14) + 0x8).Deref<int>(game);
+					str = str + "_" + quantity.ToString();
+				}
+				print(str);
+				if (!settings.ContainsKey(str) || !settings[str] || vars.splitsDone.Contains(str))
 					continue;
+				print("SPLIT");
 				vars.splitsDone.Add(str);
 				split = true;
 				if (vars.ready)
