@@ -423,7 +423,7 @@ startup
 		{ "Labo_001_Zone_020", 						"Gilroy, the Administrator (Armed Form)"},
 		{ "Labo_001_Zone_003",						"Aggressor"},
 		{ "Garden_001_Zone_011",					"Luiseach, the Iron Witch"},
-		{ "Quarry_001_Zone_031",					"Mad Knight Reibolg 1"},
+		//{ "Quarry_001_Zone_031",					"Mad Knight Reibolg 1"},
 		{ "Roots_001_Zone_001",						"Mad Knight Reibolg 2"},
 		{ "Summit_001_Zone_021",    				"Velius - Captain of the Guard"},
 		{ "Summit_001_Zone_030", 					"Gilroy, the Administrator (Absolute Form)"},
@@ -750,10 +750,8 @@ split
 					int quantity = new DeepPointer(ptr + 0x58, (i * 0x14) + 0x8).Deref<int>(game);
 					str = str + "_" + quantity.ToString();
 				}
-				print(str);
 				if (!settings.ContainsKey(str) || !settings[str] || vars.splitsDone.Contains(str))
 					continue;
-				print("SPLIT");
 				vars.splitsDone.Add(str);
 				split = true;
 				if (vars.ready)
