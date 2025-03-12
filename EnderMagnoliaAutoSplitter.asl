@@ -410,7 +410,7 @@ startup
 		{ "Quarry_001_Zone_008",					"Lars, the Lurker of the Depths 1"},
 		{ "Quarry_001_Zone_019",					"Lars, the Lurker of the Depths 2"},
 		{ "Quarry_001_Zone_022",					"Lars, the Lurker of the Depths 3"},
-		{ "Central_001_Zone_001", 					"Gilroy, the Administrator"},
+		{ "Center_001_Zone_001", 					"Gilroy, the Administrator"},
 		{ "Kowloon_001_Zone_048", 					"Combat Puppet: No. 20"},
 		{ "Kowloon_001_Zone_049", 					"Combat Puppet: No. 14"},
 		{ "Kowloon_001_Zone_050", 					"Combat Puppet: No. 56"},
@@ -794,7 +794,7 @@ split
 	if (settings["split_boss"] && current.EnemyTargetsCount > 0 && CheckBossSplit(current.EnemyTargetObjectIndex))
 		return true;
 	
-	
+	print(vars.GetName(current.LevelName));
 	if (settings["split_boss_room"] && current.LevelName != 0 && old.LevelName != current.LevelName)
 	{
 		string str = vars.GetName(current.LevelName);
