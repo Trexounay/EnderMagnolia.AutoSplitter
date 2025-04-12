@@ -144,6 +144,56 @@ state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.1.0")
 	long CachedIcons:	 	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x498;
 	int CachedIconsCount:	 0x80C5F00, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x4A0;
 }
+state("EnderMagnoliaSteam-Win64-Shipping", "Steam 1.1.1")
+{
+	// GEngine : 0x80C8F80
+	// GEngine->GameViewport->World
+	long world: 0x80C8F80, 0xA80, 0x78;
+
+	// GEngine->GameViewport->World->PersistentLevel->LevelBuildDataId
+	long LevelBuildDataId: 0x80C8F80, 0xA80, 0x78, 0x30, 0x210;
+	
+	// GEngine->GameViewport->World->GameMode->ZoneSystemComponent->ActiveZoneLevelStreaming->Name
+	int LevelName: 0x80C8F80, 0xA80, 0x78, 0x158, 0x4B0, 0xF8, 0x38;
+	
+	// GEngine->GameViewport->World->GameMode->ZoneSystemComponent->ActiveZoneLevelStreaming->Name
+	int PackageNameToLoad: 0x80C8F80, 0xA80, 0x78, 0x158, 0x4B0, 0xF8, 0x54;
+	
+	// GEngine->GameViewport->World->GameMode->ZoneSystemComponent->switchingZone
+	bool switchingZone: 0x80C8F80, 0xA80, 0x78, 0x158, 0x4B0, 0x101;
+	
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerCameraManager->ViewTargetActor->EnemyPawnTargets->Count
+	int EnemyTargetsCount: 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x320, 0xA40;
+
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerCameraManager->ViewTargetActor->EnemyPawnTargets->0
+	int EnemyTargetObjectIndex: 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x348, 0x320, 0xA38, 0x0;
+	
+	// GEngine->GameInstance->SybSystems->WorldLoader->IsLoading
+	bool isLoading: 0x80C8F80, 0x10A8, 0x108, 0x128, 0xA8;
+
+	// GEngine->GameInstance->SybSystems->Save->SaveBackupNumber
+	int SaveBackup: 0x80C8F80, 0x10A8, 0x108, 0x50, 0x7C;
+	
+	int RespawnRestPointID: 0x80C8F80, 0x10A8, 0x38, 0, 0x30, 0x9D8;
+	
+	double timeSinceStartup: 0x80C8F80, 0xA80, 0x78, 0x6C0;
+	
+	
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->InventoryComponent->xx
+	long AptitudeInventory:  0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x178;
+	long KeyInventory: 		 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1C8;
+	long QuestInventory: 	 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1D0;
+	long SpiritInventory: 	 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x180;
+	long EquipmentInventory: 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x190;
+	long PassiveInventory: 	 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x1A8;
+	long AssistInventory: 	 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x0198;
+	long MaterialInventory:  0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x01B0;
+	long StatsInventory:  	 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x978, 0x01A0;
+	
+	// GEngine->GameInstance->LocalPlayer->0->PlayerController->PlayerUI->WBP_Minimap->CurrentWidgetArea->CachedMapIcons
+	long CachedIcons:	 	 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x498;
+	int CachedIconsCount:	 0x80C8F80, 0x10A8, 0x38, 0x0, 0x30, 0x9C8, 0x468, 0x4E0, 0x4A0;
+}
 
 
 startup
@@ -642,6 +692,11 @@ init
 	
 	switch(MD5Hash)
 	{
+		case "2D37E3BAAC225F78EEE1B1CBB17D227E": { 
+			vars.fNamePool = 0x07E95AC0;
+			vars.GUObjectArray = 0x07F4C820;
+			version = "Steam 1.1.1"; break;
+		}
 		case "DC8AA145769EEE84068846F2B0446F3A": { 
 			vars.fNamePool = 0x07E92A40;
 			vars.GUObjectArray = 0x07F497A0;
@@ -701,6 +756,7 @@ update
 	{
 		vars.lastLevel = old.LevelBuildDataId;
 	}
+	print("->" + vars.GetName(current.LevelName));
 	return true;
 }
 
@@ -794,7 +850,6 @@ split
 	if (settings["split_boss"] && current.EnemyTargetsCount > 0 && CheckBossSplit(current.EnemyTargetObjectIndex))
 		return true;
 	
-	print(vars.GetName(current.LevelName));
 	if (settings["split_boss_room"] && current.LevelName != 0 && old.LevelName != current.LevelName)
 	{
 		string str = vars.GetName(current.LevelName);
