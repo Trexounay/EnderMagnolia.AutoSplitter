@@ -756,7 +756,7 @@ update
 	{
 		vars.lastLevel = old.LevelBuildDataId;
 	}
-	print("->" + vars.GetName(current.LevelName));
+	//print("->" + vars.GetName(current.LevelName));
 	return true;
 }
 
